@@ -23,7 +23,7 @@ class Button extends EventTargetEmiter
     if num < 0
       ERR "Index button less than 0"
       return
-    unless gamepad.buttons[num]
+    unless gamepad.buttons[num]?
       ERR "Button: button #{num} not exists"
       return
 
