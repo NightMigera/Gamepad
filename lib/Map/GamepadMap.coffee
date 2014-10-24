@@ -72,9 +72,9 @@ class GamepadMap
           axis: null # optional, if by default buttonName is axis, but need button (LSX, LSY, RSX, RSY only)
         axisName:
           axis: 0 # num of axis in array
-          # AS_STICK -- only stick width change event,
-          # AS_BUTTON -- only button events,
-          # AS_COMBINED -- dual mode: change deect change value, other: button pressed
+          # GAMEPAD_AXIS_AS_STICK -- only stick width change event,
+          # GAMEPAD_AXIS_AS_BUTTON -- only button events,
+          # GAMEPAD_AXIS_AS_COMBINED -- dual mode: change deect change value, other: button pressed
           mode: AS_COMBINED # mode detect and work axis.
           # Detect button press when value great then triggerValue, or less then?
           positive: true # need not AS_STICK mode. Optional. Default = true.
@@ -104,17 +104,17 @@ class GamepadMap
         LSB: button: 10 # leftStickButton
         LSX:
           axis: 0
-          mode: AS_STICK
+          mode: AS_STICK_VAL
         LSY:
           axis: 1
-          mode: AS_STICK
+          mode: AS_STICK_VAL
         RSB: button: 11 # rightStickButton
         RSX:
           axis: 2
-          mode: AS_STICK
+          mode: AS_STICK_VAL
         RSY:
           axis: 3
-          mode: AS_STICK
+          mode: AS_STICK_VAL
       dpad: # dPad
         up: button: 12
         down: button: 13
