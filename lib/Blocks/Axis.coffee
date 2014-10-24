@@ -58,12 +58,13 @@ class Axis extends EventTargetEmiter
 
     @_oldValue = _value()
 
-    Object.defineProperty @, 'value',
-      get: ->
-        _value()
-      set: (v) =>
-        @_oldValue = v
-        return
+    if mode is not AS_BUTTON_VAL
+      Object.defineProperty @, 'value',
+        get: ->
+          _value()
+        set: (v) =>
+          @_oldValue = v
+          return
 
     Object.defineProperty @, 'pressed',
       get: ->
