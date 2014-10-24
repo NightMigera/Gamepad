@@ -75,7 +75,7 @@ class GamepadMap
           # GAMEPAD_AXIS_AS_STICK -- only stick width change event,
           # GAMEPAD_AXIS_AS_BUTTON -- only button events,
           # GAMEPAD_AXIS_AS_COMBINED -- dual mode: change deect change value, other: button pressed
-          mode: AS_COMBINED # mode detect and work axis.
+          mode: GAMEPAD_AXIS_AS_COMBINED # mode detect and work axis.
           # Detect button press when value great then triggerValue, or less then?
           positive: true # need not AS_STICK mode. Optional. Default = true.
           triggerValue: 127 # need not AS_STICK mode. Optional. Default 127.
