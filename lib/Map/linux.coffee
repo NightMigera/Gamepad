@@ -5,6 +5,9 @@ linux:
   "046dc21d": "XInputStyleGamepad"
   "046dc21e": "XInputStyleGamepad"
   "046dc21f": "XInputStyleGamepad"
+  "046dc216": "DirectInputStyle"
+  "046dc218": "DirectInputStyle"
+  "046dc219": "DirectInputStyle"
 
   "XInputStyleGamepad":
     lrtb:
@@ -49,3 +52,25 @@ linux:
         positive: true
         mode: AS_BUTTON
 
+  "DirectInputStyle":
+    face:
+      PR: button: 1
+      SC: button: 2
+      TR: button: 0
+    dpad:
+      up:
+        axis: 5
+        positive: false
+        mode: AS_BUTTON
+      down:
+        axis: 5
+        positive: true
+        mode: AS_BUTTON
+      left:
+        axis: 4
+        positive: false
+        mode: AS_BUTTON
+      right:
+        axis: 4
+        positive: true
+        mode: AS_BUTTON
