@@ -32,7 +32,7 @@ class Button extends EventTargetEmiter
     if isFinite gamepad.buttons[0]
       # webkit style values only
       _value = ->
-        Boolean gamepad.buttons[num]
+        gamepad.buttons[num] > 0.5
     else
       # standart supported
       _value = ->
