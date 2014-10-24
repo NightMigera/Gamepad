@@ -56,8 +56,6 @@ class Axis extends EventTargetEmiter
     else
       ERR "Axis mode not correct."
 
-    # TODO  webkit axis trigger haven't negative value
-
     @_oldValue = _value()
 
     Object.defineProperty @, 'value',
