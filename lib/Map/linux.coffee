@@ -14,12 +14,12 @@ linux:
       LT:
         axis: 2
         positive: true
-        mode: AS_COMBINED
+        mode: AS_COMBINED_VAL
         triggerValue: 0
       RT:
         axis: 5
         positive: true
-        mode: AS_COMBINED
+        mode: AS_COMBINED_VAL
         triggerValue: 0
     menu:
       back: button: 6
@@ -30,27 +30,27 @@ linux:
       RSB: button: 10
       RSX:
         axis: 3
-        mode: AS_STICK
+        mode: AS_STICK_VAL
       RSY:
         axis: 4
-        mode: AS_STICK
+        mode: AS_STICK_VAL
     dpad:
       up:
         axis: 7
         positive: false
-        mode: AS_BUTTON
+        mode: AS_BUTTON_VAL
       down:
         axis: 7
         positive: true
-        mode: AS_BUTTON
+        mode: AS_BUTTON_VAL
       left:
         axis: 6
         positive: false
-        mode: AS_BUTTON
+        mode: AS_BUTTON_VAL
       right:
         axis: 6
         positive: true
-        mode: AS_BUTTON
+        mode: AS_BUTTON_VAL
 
   "DirectInputStyle":
     face:
@@ -61,16 +61,16 @@ linux:
       up:
         axis: 5
         positive: false
-        mode: AS_BUTTON
+        mode: AS_BUTTON_VAL
       down:
         axis: 5
         positive: true
-        mode: AS_BUTTON
+        mode: AS_BUTTON_VAL
       left:
         axis: 4
         positive: false
-        mode: AS_BUTTON
+        mode: AS_BUTTON_VAL
       right:
         axis: 4
         positive: true
-        mode: AS_BUTTON
+        mode: AS_BUTTON_VAL
