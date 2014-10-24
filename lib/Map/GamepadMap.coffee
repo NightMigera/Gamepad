@@ -4,10 +4,10 @@
 #@include "../sys.coffee"
 
 class GamepadMap
-  @vendor: ""
-  @product: ""
-  @platform: "linux"
-  @activeMap: null
+  vendor: ""
+  product: ""
+  platform: "linux"
+  activeMap: null
 
   constructor: (vendor, product) ->
     unless isString(vendor) and vendor.length is 4 and /[a-f0-9]/i.test(vendor)
@@ -64,6 +64,22 @@ class GamepadMap
   #@include "linux.coffee"
 
   other:
+    "example": # example only
+      blockName: # name block of gamepad from based: dpad, lrtb, menu, axes, face.
+        buttonName: # maybe any name
+          button: 0 # num button in array
+          asAxis: false # if value is float and need evented it, must be true
+          axis: null # optional, if by default buttonName is axis, but need button (LSX, LSY, RSX, RSY only)
+        axisName:
+          axis: 0 # num of axis in array
+          # AS_STICK -- only stick width change event,
+          # AS_BUTTON -- only button events,
+          # AS_COMBINED -- dual mode: change deect change value, other: button pressed
+          mode: AS_COMBINED # mode detect and work axis.
+          # Detect button press when value great then triggerValue, or less then?
+          positive: true # need not AS_STICK mode. Optional. Default = true.
+          triggerValue: 127 # need not AS_STICK mode. Optional. Default 127.
+    # base default config
     "00000000":
       face:
         PR: button: 0 # primary
@@ -73,13 +89,17 @@ class GamepadMap
       lrtb: # shouldersTriggers
         LB: button: 4 # leftShoulder  # L1
         RB: button: 5 # rightShoulder # R1
-        LT: button: 6 # leftTrigger   # L2
-        RT: button: 7 # rightTrigger  # R2
+        LT:
+          button: 6 # leftTrigger   # L2
+          asAxis: true
+        RT:
+          button: 7 # rightTrigger  # R2
+          asAxis: true
       menu:
         back: button: 8 # select
         start: button: 9
         home: button: 16
-        caca: button: 17
+        caca: button: 17 # test for worked dismiss not exists button
       axes:
         LSB: button: 10 # leftStickButton
         LSX:
