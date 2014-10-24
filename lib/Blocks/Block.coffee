@@ -25,14 +25,14 @@ class Block extends EventedArray
   _mapParse: (map) ->
     @map = map
     for own name, val of map
-      if val.hasOwnProperty('axis')
+      if val.hasOwnProperty('axis') and val.axis?
         axis = new Axis(@gamepad, val.axis, val.mode or AS_STICK, Boolean(val.positive), val.triggerValue or 0)
         if 'onchange' of axis
           @[name] = axis
         else
           delete map[name]
           continue
-      else if val.hasOwnProperty('button')
+      else if val.hasOwnProperty('button') and val.button?
         button = new Button(@gamepad, val.button)
         if 'onchange' of button
           @[name] = button
@@ -60,6 +60,7 @@ class Block extends EventedArray
   reSubscribe: (gamepad) ->
     @gamepad = gamepad
     for own name, val of @map
+      continue unless @[name]?
       if val.hasOwnProperty('axis')
         @[name].reSubscribe(gamepad)
       else if val.hasOwnProperty('button')
