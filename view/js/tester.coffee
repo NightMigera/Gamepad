@@ -48,6 +48,7 @@ up = (el, text) ->
   text.setAttribute 'class', ''
 
 button = (blockElement, name) ->
+  return unless blockElement?
   blockElement.on "down", ->
     down elements[name][0], elements[name][1]
   blockElement.on "up", ->
