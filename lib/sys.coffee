@@ -39,7 +39,7 @@ merge = (to, from) ->
         to[p] = from[p]
     catch e
     # Property in destination object not set; create it and set its value.
-      to[p] = from[p]
+      to[p] = merge {}, from[p]
   to
 
 ###*
