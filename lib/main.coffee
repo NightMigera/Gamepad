@@ -1,3 +1,9 @@
+#@ifdef DEBUG
+"debug"
+#@else
+"use strict"
+#@endif
+
 #@include "Gamepads.coffee"
 
 @Gamepads = Gamepads
