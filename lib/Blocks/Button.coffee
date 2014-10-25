@@ -3,7 +3,11 @@
 
 #@include "SPoke.coffee"
 
+#@include "Axis.coffee"
+
 class Button extends EventTargetEmiter
+
+  MODE: AS_BUTTON_VAL
 
   _implements.call(@, SPoke)
 

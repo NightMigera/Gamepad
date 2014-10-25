@@ -17,7 +17,7 @@ class Axis extends EventTargetEmiter
 
   _implements.call(@, SPoke)
 
-  MODE: 1
+  MODE: AS_STICK_VAL
 
   # axes: null
 
