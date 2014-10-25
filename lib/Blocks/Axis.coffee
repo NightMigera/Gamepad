@@ -58,7 +58,7 @@ class Axis extends EventTargetEmiter
 
     @_oldValue = _value()
 
-    if mode is not AS_BUTTON_VAL
+    if mode isnt AS_BUTTON_VAL
       Object.defineProperty @, 'value',
         get: ->
           _value()
