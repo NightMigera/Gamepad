@@ -67,6 +67,9 @@
   };
 
   button = function(blockElement, name) {
+    if (blockElement == null) {
+      return;
+    }
     blockElement.on("down", function() {
       return down(elements[name][0], elements[name][1]);
     });
@@ -77,7 +80,7 @@
 
   inited = false;
 
-  gs = new Gamepads();
+  this.gs = gs = new Gamepads();
 
   gs.detect();
 

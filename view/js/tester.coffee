@@ -57,7 +57,7 @@ button = (blockElement, name) ->
 
 inited = false
 
-gs = new Gamepads()
+@gs = gs = new Gamepads()
 gs.detect()
 
 gs.addEventListener 'add', (e) ->
