@@ -5,8 +5,8 @@ linux:
   "046dc21d": "XInputStyleGamepad" # Logitech f310
   "046dc21e": "XInputStyleGamepad" # Logitech f510
   "046dc21f": "XInputStyleGamepad" # Logitech f710
-  "23781008": "XInputStyleGamepad" # MapperOnLiveWireless ??
-  "2378100a": "XInputStyleGamepad" # MapperOnLiveWireless ??
+  "23781008": "XInputStyleGamepad" # OnLive bluetooth
+  "2378100a": "XInputStyleGamepad" # OnLive wire
 
   "046dc216": "DirectInputStyle" # Logitech f310 (DirectInput)
   "046dc218": "DirectInputStyle" # Logitech f510 (DirectInput)
