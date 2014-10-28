@@ -162,10 +162,10 @@ class Gamepads extends EventedArray
       _reQueue.push =>
         for gamepad in _registered
           if gamepad.connected
-            if NOW - gamepad.timechange > MAX_INACTIVE
+            if NOW - gamepad.timechange > _webkitMaxInactive
               gamepad.connected = false
               @_gamepadDisconnect gamepad
-          else if NOW - gamepad.timechange < MAX_INACTIVE
+          else if NOW - gamepad.timechange < _webkitMaxInactive
             gamepad.connected = true
             pad3 = _getPad gamepad
             unless pad3
