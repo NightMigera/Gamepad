@@ -101,9 +101,8 @@ class GamepadMap
           asAxis: true
       menu:
         back: button: 8 # select
-        start: button: 9
-        home: button: 16
-        caca: button: 17 # test for worked dismiss not exists button
+        start: button: 9 # forvard
+        home: button: 16 # meta
       axes:
         LSB: button: 10 # leftStickButton
         LSX:
