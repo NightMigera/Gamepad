@@ -77,19 +77,19 @@ throwError = (errors...) ->
   out = [NOW - start]
   out.push errors...
   messages.error.push out
-  console.error unless silent
+  console.error errors... unless silent
   return
 throwWarn = (warn...) ->
   out = [NOW - start]
   out.push warn...
   messages.warn.push out
-  console.warn unless silent
+  console.warn warn... unless silent
   return
 throwInfo = (info...) ->
   out = [NOW - start]
   out.push info...
   messages.info.push out
-  console.info unless silent
+  console.info info... unless silent
   return
 
 #@endif
