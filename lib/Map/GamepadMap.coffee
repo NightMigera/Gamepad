@@ -41,7 +41,7 @@ class GamepadMap
   loadMap: ->
     index = @vendor + @product
     unless isString(index) and index.length is 8 and /[a-f0-9]/.test(index)
-      ERR "GamepadMap: in map changed vendor or product on incorrect"
+      ERR "GamepadMap: in map changed vendor or product and he incorrect"
       return
 
     defaultMap = @other["00000000"]
@@ -49,18 +49,18 @@ class GamepadMap
 
     mapsByPlatform = @[@platform]
     unless mapsByPlatform?
-      WARN "GamepadMap: platform not supported. Use default map."
+      WARN "GamepadMap: platform #{@platform} not supported. Use default map."
       return defaultMap
 
     unless mapsByPlatform.hasOwnProperty(index)
-      WARN "GamepadMap: vendor or product not supported. Use default map."
+      WARN "GamepadMap: vendor #{@vendor} or product #{@product} not supported. Use default map."
       return defaultMap
 
     map = mapsByPlatform[index]
     if isString map
       if mapsByPlatform.hasOwnProperty map
         return overlay defaultMap, mapsByPlatform[map]
-      WARN "GamepadMap: index of map not avialable."
+      WARN "GamepadMap: index #{index} of map not avialable."
       return defaultMap
 
     return overlay(defaultMap, map) or defaultMap
