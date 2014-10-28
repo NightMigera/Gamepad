@@ -25,6 +25,9 @@ class Block extends EventedArray
   _mapParse: (map) ->
     @map = map
     for own name, val of map
+      unless val?
+        delete map[name]
+        continue
       if val.hasOwnProperty('axis') and val.axis?
         axis = new Axis(@gamepad, val.axis, val.mode or AS_STICK, Boolean(val.positive), val.triggerValue or 0)
         if 'onchange' of axis
