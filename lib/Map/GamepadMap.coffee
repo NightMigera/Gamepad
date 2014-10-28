@@ -9,7 +9,22 @@ class GamepadMap
   platform: "linux"
   activeMap: null
 
-  constructor: (vendor, product) ->
+  @platformDetect = ->
+    isLinux = /linux/i
+    isMac = /mac/i
+    isWindows = /window/i
+    platform = navigator.platform
+    if isLinux.test platform
+      "linux"
+    else if isMac.test platform
+      "mac"
+    else if isWindows.test platform
+      "windows"
+    else
+      WARN "Mobile or other not supported platform"
+      "other"
+
+  constructor: (vendor, product, platform, overideMap = null) ->
     unless isString(vendor) and vendor.length is 4 and /[a-f0-9]/i.test(vendor)
       ERR "GamepadMap: vendor incorrect: #{vendor}"
       return
@@ -18,21 +33,10 @@ class GamepadMap
       return
     @vendor = vendor.toLowerCase()
     @product = product.toLowerCase()
-
-    isLinux = /linux/i
-    isMac = /mac/i
-    isWindows = /window/i
-    platform = navigator.platform
-    if isLinux.test platform
-      @platform = "linux"
-    else if isMac.test platform
-      @platform = "mac"
-    else if isWindows.test platform
-      @platform = "windows"
-    else
-      WARN "Mobile or other not supported platform"
-      @platform = "other"
+    @platform = platform or GamepadMap.platformDetect()
     @activeMap = @loadMap()
+    if overideMap?
+      merge @activeMap, overideMap
 
   loadMap: ->
     index = @vendor + @product

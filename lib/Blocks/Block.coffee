@@ -33,7 +33,7 @@ class Block extends EventedArray
           delete map[name]
           continue
       else if val.hasOwnProperty('button') and val.button?
-        button = new Button(@gamepad, val.button)
+        button = new Button(@gamepad, val.button, val.asAxis)
         if 'onchange' of button
           @[name] = button
         else

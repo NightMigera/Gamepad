@@ -15,7 +15,7 @@ class Button extends EventTargetEmiter
 
   _oldPressed: false
 
-  constructor: (gamepad, num) ->
+  constructor: (gamepad, num, asAxis = false) ->
     # check values
     if typeof gamepad isnt "object"
       ERR "gamepad is not Gamepad"
@@ -33,8 +33,7 @@ class Button extends EventTargetEmiter
 
     super('change', 'press', 'down', 'up')
     # create get value functions
-    if isFinite gamepad.buttons[0]
-      # webkit style values only
+    if _webkit = isFinite gamepad.buttons[0]
       _value = ->
         gamepad.buttons[num] > 0.5
     else
@@ -50,16 +49,43 @@ class Button extends EventTargetEmiter
         @_oldPressed = v
         return
 
+    # asAxis convert value to -255..255 range
+    if asAxis
+      @MODE = AS_COMBINED_VAL
+      @_oldValue = -255
+      if _webkit
+        Object.defineProperty @, 'value',
+          get: ->
+            (2 * gamepad.buttons[num] - 1) * GRADATION
+          set: (v) ->
+            @_oldValue = v
+            return
+      else
+        Object.defineProperty @, 'value',
+          get: ->
+            (2 * gamepad.buttons[num].value - 1) * GRADATION
+          set: (v) ->
+            @_oldValue = v
+            return
+
     @reSubscribe = (gamepadNew) -> gamepad = gamepadNew
 
   poke: ->
     if @_subscribe._length > 0
+      if @s('change')
+        if @MODE & AS_STICK_VAL # if as axis
+          if @_oldValue isnt v = @value
+            @emet 'change', new CustomEvent 'change',
+              detail:
+                oldValue: @_oldValue
+                newValue: v
+        else
+          if @_oldPressed isnt p = @pressed
+            @emet "change", new CustomEvent 'change',
+              detail:
+                oldValue: !p
+                newValue: p
       if @_oldPressed isnt p = @pressed
-        if @s "change"
-          @emet "change", new CustomEvent 'change',
-            detail:
-              oldValue: !p
-              newValue: p
         if p # new value is press
           @emet("down") if @s("down")
         else # button up
