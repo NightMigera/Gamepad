@@ -57,8 +57,10 @@ button = (blockElement, name) ->
 
 inited = false
 
-@gs = gs = new Gamepads()
-gs.detect()
+@gs = gs = new Gamepads
+  silent: false
+  autoDetect: true
+  naming: GAMEPAD_NAME_SHORT
 
 gs.addEventListener 'add', (e) ->
   console.log "Gamepad add", e.detail

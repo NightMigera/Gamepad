@@ -30,10 +30,12 @@ _implements = (mixins...) ->
   * @return {Object} изменённый `to`
 ###
 merge = (to, from) ->
+  unless to? or typeof to isnt 'object'
+    return from
   for own p of from
     try
     # Property in destination object set; update its value.
-      if typeof from[p] is 'object'
+      if from[p]? and typeof from[p] is 'object'
         to[p] = merge(to[p], from[p])
       else
         to[p] = from[p]

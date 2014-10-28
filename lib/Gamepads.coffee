@@ -88,21 +88,21 @@ class Gamepads extends EventedArray
 
     booleanTest "allowCustomBlockName", "allowCustomBlockName must be boolean"
 
-    if config.map?
-      if config.map instanceof GamepadMap
-        config.map = [config.map]
-      unless config.map instanceof Array
+    if config.maps?
+      if config.maps instanceof GamepadMap
+        config.maps = [config.maps]
+      unless config.maps instanceof Array
         warn "map must be array of gamepadMap instance or gamepadMap instance"
-        config.map = null
+        config.maps = null
       wrongMap = []
-      for map, index in config.map
+      for map, index in config.maps
         unless map instanceof GamepadMap
           warn "map #{index} not instance of GamepadMap. Use constructor for create map"
           wrongMap.push index
       for index in wrongMap by -1
-        config.map.splice index, 1
-      if config.map.length is 0
-        config.map = null
+        config.maps.splice index, 1
+      if config.maps.length is 0
+        config.maps = null
 
     return config
 

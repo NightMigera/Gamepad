@@ -52,19 +52,22 @@ class Gamepad2 extends EventTargetEmiter
 
     @gamepad = gamepad
 
-    if config.maps?
-      vp = parseId gamepad.id
-      vp[0] = GamepadMap.platformDetect()
-      for map in config.maps
-        if map.platform is vp[0] and map.vendor.toLowerCase() is vp[1] and map.product.toLowerCase() is vp[2]
-          @map = map
-          break
-      unless @map?
-        INFO "Gamepad2: manual map not find allowed. Use default mapper"
+    mapCandidat = null
 
-    unless @map?
-      if gamepad.axes.length is 4 # mapped by browser to default
-        @map = new GamepadMap "0000", "0000"
+    if gamepad.axes.length is 4 # mapped by browser to default
+      @map = new GamepadMap "0000", "0000"
+    else
+      if config.maps?
+        vp = parseId gamepad.id
+        vp[0] = GamepadMap.platformDetect()
+        for map in config.maps
+          if map.platform is vp[0] and map.vendor.toLowerCase() is vp[1] and map.product.toLowerCase() is vp[2]
+            mapCandidat = map
+            break
+        unless mapCandidat?
+          INFO "Gamepad2: manual map not find allowed. Use default mapper"
+      if mapCandidat?
+        @map = mapCandidat
       else
         @getMap gamepad.id
 
@@ -79,10 +82,13 @@ class Gamepad2 extends EventTargetEmiter
     @map = map
     for own blockName, block of map.activeMap
       if (blockName of @) or @config.allowCustomBlockName is true
-        if @[blockName] is null
+        unless @[blockName]?
           associate @, @config.naming, blockName, block
         else
           @[blockName].reSubscribe @gamepad
+      else
+        delete map.activeMap[blockName]
+    return
 
   connect: ->
     @reMap @map
