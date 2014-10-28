@@ -260,12 +260,14 @@ class Gamepads extends EventedArray
     requestAnimationFrame =>
       t = null
       p = @
+      ws = _webkitStyle # it's need
       startTimers = ->
         t is null and t = tick (1000 / Hz |0), -> # interval 21 is 1000/60
+          navigator.webkitGetGamepads() if ws is true
           for pad in p
             pad.poke() if pad.connected # к чему тревожить мертвецов?
           return
-        if _webkitStyle and _webkitPoolSheduller is null
+        if ws and _webkitPoolSheduller is null
           _webkitPoolSheduller = tick (1000 / wHz |0), ->
             for fn in _reQueue
               fn()
@@ -275,7 +277,7 @@ class Gamepads extends EventedArray
         if t isnt null
           stopTick(t)
           t = null
-        if _webkitPoolSheduller isnt null and _webkitStyle
+        if _webkitPoolSheduller isnt null and ws
           stopTick(_webkitPoolSheduller)
           _webkitPoolSheduller = null
         return
