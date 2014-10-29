@@ -163,17 +163,20 @@ class Gamepad2 extends EventTargetEmiter
     return config
 
   parseId = (id) ->
-    moz = /([0-9a-f]{4})\-([0-9a-f]{4})\-[\s\w]+/
-    webkit = /Vendor: ([0-9a-f]{4}) Product: ([0-9a-f]{4})/
+    moz = /([0-9a-f]{1,4})\-([0-9a-f]{1,4})\-[\s\w]+/
+    webkit = /Vendor: ([0-9a-f]{1,4}) Product: ([0-9a-f]{1,4})/
     other = /\b([0-9a-f]{4})\b.+\b([0-9a-f]{4})\b/
     if moz.test id
-      id.match moz
+      vp = id.match moz
     else if webkit.test id
-      id.match webkit
+      vp = id.match webkit
     else if other.test id
-      id.match other
+      vp = id.match other
     else
-      [null, "0000", "0000"]
+      vp = [null, "0000", "0000"]
+    vp[1] = zeroFill vp[1], 4
+    vp[2] = zeroFill vp[2], 4
+    vp
 
   _synonyms = [
     ["PR",    "primary"]

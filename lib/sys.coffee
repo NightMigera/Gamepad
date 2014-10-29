@@ -104,6 +104,11 @@ isFunction = (functionToCheck) ->
 isString = (string) ->
   string + '' is string
 
+zeroFill = (number, width) ->
+  width -= number.toString().length
+  return new Array(width + 1).join("0") + number  if width > 0
+  number + "" # always return a string
+
 # синтаксический сахар для привычных функций
 wait = (time, fn) ->
   setTimeout fn, time
