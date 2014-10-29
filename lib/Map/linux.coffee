@@ -28,19 +28,19 @@ linux:
   "XInputStyleGamepad":
     lrtb:
       LT:
-        axis: 2
+        axis: 4
         positive: true
         mode: AS_COMBINED_VAL
-        triggerValue: 0
+        triggerValue: 127
       RT:
-        axis: 5
-        positive: true
+        axis: 4
+        positive: false
         mode: AS_COMBINED_VAL
-        triggerValue: 0
+        triggerValue: 127
     menu:
       back: button: 6
-      start: null
-      home: null
+      start: button: 7
+      home: button: 8
     axes:
       LSB: button: 9
       RSB: button: 10
@@ -99,12 +99,8 @@ linux:
     lrtb:
       LB: button: 6
       RB: button: 7
-      LT:
-        button: 4
-        asAxis: true
-      RT:
-        button: 5
-        asAxis: true
+      LT: button: 4
+      RT: button: 5
     menu:
       back: button: 9
       start: button: 8
