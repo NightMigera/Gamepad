@@ -128,7 +128,7 @@ class Gamepads extends EventedArray
           unless r?
             ERR "Gamepads: gamepad not added!"
             return
-        @_createEvent 'on', @[r]
+          @_createEvent 'on', @[r]
         return
       top.addEventListener 'gamepaddisconnected', (e) =>
         @_gamepadDisconnect e.gamepad
@@ -189,10 +189,10 @@ class Gamepads extends EventedArray
 
     @registred = {}
 
+    _support = true
+
     if config.autoDetect
       @detect()
-
-    _support = true
 
   registred: null
 
@@ -204,10 +204,10 @@ class Gamepads extends EventedArray
       @_addGamepad(gamepad)
     true
 
-  _createEvent: (name, gamepad) ->
+  _createEvent: (name, pad) ->
     return null unless isString name
-    return null unless gamepad
-    @emet name, new CustomEvent name, detail: gamepad
+    return null unless pad
+    @emet name, new CustomEvent name, detail: pad
 
   _addGamepad: (gamepad) ->
     return -2 unless gamepad?
@@ -224,7 +224,8 @@ class Gamepads extends EventedArray
       @registred[gamepad.id] = [pad2]
       @_createEvent 'add', pad2
       if gamepad.connected
-        pad2.connect()
+        wait 0, -> pad2.connect()
+        wait 1, => @_createEvent 'on', pad2
       else
         gamepad.connected = false
       return @length - 1
@@ -234,7 +235,9 @@ class Gamepads extends EventedArray
       for pad in @registred[gamepad.id]
         if pad.gamepad.connected is false
           pad.gamepad = gamepad
-          pad.connect() if gamepad.connected
+          if gamepad.connected
+            wait 0, -> pad.connect()
+            wait 1, => @_createEvent 'on', pad
           return @indexOf pad
       return add()
     return -1
@@ -263,7 +266,8 @@ class Gamepads extends EventedArray
       ws = _webkitStyle # it's need
       startTimers = ->
         t is null and t = tick (1000 / Hz |0), -> # interval 21 is 1000/60
-          navigator.webkitGetGamepads() if ws is true
+          # fucking webkit need requrst for all gamepads statements every fucking time!
+          navigator.webkitGetGamepads() if 'webkitGetGamepads' of navigator
           for pad in p
             pad.poke() if pad.connected # к чему тревожить мертвецов?
           return

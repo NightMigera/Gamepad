@@ -50,19 +50,19 @@ windows:
         mode: AS_STICK_VAL
     dpad:
       up:
-        axis: 5
+        axis: 6
         positive: false
         mode: AS_BUTTON_VAL
       down:
-        axis: 5
+        axis: 6
         positive: true
         mode: AS_BUTTON_VAL
       left:
-        axis: 6
+        axis: 5
         positive: false
         mode: AS_BUTTON_VAL
       right:
-        axis: 6
+        axis: 5
         positive: true
         mode: AS_BUTTON_VAL
 

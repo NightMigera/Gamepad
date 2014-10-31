@@ -12,7 +12,7 @@ class GamepadMap
   @platformDetect = ->
     isLinux = /linux/i
     isMac = /mac/i
-    isWindows = /window/i
+    isWindows = /win/i
     platform = navigator.platform
     if isLinux.test platform
       "linux"
@@ -52,13 +52,13 @@ class GamepadMap
       WARN "GamepadMap: platform #{@platform} not supported. Use default map."
       return defaultMap
 
-    unless mapsByPlatform.hasOwnProperty(index)
+    unless index of mapsByPlatform
       WARN "GamepadMap: vendor #{@vendor} or product #{@product} not supported. Use default map."
       return defaultMap
 
     map = mapsByPlatform[index]
     if isString map
-      if mapsByPlatform.hasOwnProperty map
+      if map of mapsByPlatform
         return overlay defaultMap, mapsByPlatform[map]
       WARN "GamepadMap: index #{index} of map not avialable."
       return defaultMap
