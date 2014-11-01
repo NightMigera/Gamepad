@@ -69,6 +69,8 @@ class GamepadMap
 
   #@include "windows.coffee"
 
+  #@include "macos.coffee"
+
   other:
     "example": # example only
       blockName: # name block of gamepad from based: dpad, lrtb, menu, axes, face.

@@ -1,16 +1,17 @@
-linux:
+mac:
 
   "045e028e": "XInputStyleGamepad" # Xbox 360
   "045e028f": "XInputStyleGamepad" # Xbox 360 wireless
   "046dc21d": "XInputStyleGamepad" # Logitech f310
   "046dc21e": "XInputStyleGamepad" # Logitech f510
   "046dc21f": "XInputStyleGamepad" # Logitech f710
-  "23781008": "XInputStyleGamepad" # OnLive bluetooth
-  "2378100a": "XInputStyleGamepad" # OnLive wire
 
-  "046dc216": "DirectInputStyle" # Logitech f310 (DirectInput)
-  "046dc218": "DirectInputStyle" # Logitech f510 (DirectInput)
-  "046dc219": "DirectInputStyle" # Logitech f710 (DirectInput)
+  "23781008": "OnLiveWireless" # OnLive bluetooth
+  "2378100a": "OnLiveWireless" # OnLive wire
+
+  #"046dc216": "DirectInputStyle" # Logitech f310 (DirectInput)
+  #"046dc218": "DirectInputStyle" # Logitech f510 (DirectInput)
+  #"046dc219": "DirectInputStyle" # Logitech f710 (DirectInput)
 
   "09250005": "LakeviewResearch" # SmartJoy PLUS Adapter
   "09258866": "LakeviewResearch" # WiseGroup MP-8866
@@ -38,12 +39,12 @@ linux:
         mode: AS_COMBINED_VAL
         triggerValue: 0
     menu:
-      back: button: 6
-      start: button: 7
-      home: button: 8
+      back: button: 9
+      start: button: 8
+      home: button: 10
     axes:
-      LSB: button: 9
-      RSB: button: 10
+      LSB: button: 6
+      RSB: button: 7
       RSX:
         axis: 3
         mode: AS_STICK_VAL
@@ -51,47 +52,58 @@ linux:
         axis: 4
         mode: AS_STICK_VAL
     dpad:
-      up:
-        axis: 7
-        positive: false
-        mode: AS_BUTTON_VAL
-      down:
-        axis: 7
-        positive: true
-        mode: AS_BUTTON_VAL
-      left:
-        axis: 6
-        positive: false
-        mode: AS_BUTTON_VAL
-      right:
-        axis: 6
-        positive: true
-        mode: AS_BUTTON_VAL
+      up: button: 11
+      down: button: 12
+      left: button: 13
+      right: button: 14
 
-  "DirectInputStyle":
+  "OnLiveWireless":
     face:
-      PR: button: 1
-      SC: button: 2
-      TR: button: 0
-    menu:
-      home: null
-    dpad:
-      up:
+      TR: button: 3
+      QT: button: 4
+    lrtb:
+      LB: button: 6
+      RB: button: 7
+      LT:
+        axis: 2
+        positive: true
+        mode: AS_COMBINED_VAL
+        triggerValue: 0
+      RT:
         axis: 5
+        positive: true
+        mode: AS_COMBINED_VAL
+        triggerValue: 0
+    menu:
+      back: button: 10
+      start: button: 11
+      home: button: 12
+    dpad: # теоретически
+      up:
+        axis: 7
         positive: false
         mode: AS_BUTTON_VAL
       down:
-        axis: 5
+        axis: 7
         positive: true
         mode: AS_BUTTON_VAL
       left:
-        axis: 4
+        axis: 6
         positive: false
         mode: AS_BUTTON_VAL
       right:
-        axis: 4
+        axis: 6
         positive: true
         mode: AS_BUTTON_VAL
+    axes:
+      LSB: button: 13
+      RSB: button: 14
+      RSX:
+        axis: 3
+        mode: AS_STICK_VAL
+      RSY:
+        axis: 4
+        mode: AS_STICK_VAL
 
   "LakeviewResearch":
     face:
@@ -106,21 +118,26 @@ linux:
     menu:
       back: button: 9
       start: button: 8
+      home: null
+    axes:
+      RSY:
+        axis: 5
+        mode: AS_STICK_VAL
     dpad:
       up:
-        axis: 5
+        axis: 4
         positive: false
         mode: AS_BUTTON_VAL
       down:
-        axis: 5
+        axis: 4
         positive: true
         mode: AS_BUTTON_VAL
       left:
-        axis: 4
+        axis: 3
         positive: false
         mode: AS_BUTTON_VAL
       right:
-        axis: 4
+        axis: 3
         positive: true
         mode: AS_BUTTON_VAL
 
@@ -134,12 +151,12 @@ linux:
       LB: button: 10
       RB: button: 11
       LT:
-        axis: 12
+        axis: 14
         positive: true
         mode: AS_COMBINED_VAL
         triggerValue: 0
       RT:
-        axis: 13
+        axis: 15
         positive: true
         mode: AS_COMBINED_VAL
         triggerValue: 0
@@ -150,23 +167,12 @@ linux:
     axes:
       LSB: button: 1
       RSB: button: 2
+      RSY: axis: 5
     dpad:
-      up:
-        axis: 8
-        positive: true
-        mode: AS_BUTTON_VAL
-        triggerValue: 0
-      down:
-        axis: 10
-        positive: true
-        mode: AS_BUTTON_VAL
-        triggerValue: 0
+      up: button: 4
+      down: button: 6
       left: button: 7
-      right:
-        axis: 9
-        positive: true
-        mode: AS_BUTTON_VAL
-        triggerValue: 0
+      right: button: 5
 
   "Dualshock4":
     face:
@@ -227,24 +233,25 @@ linux:
         asAxis: true
     dpad:
       up:
-        axis: 5
+        axis: 4
         positive: false
         mode: AS_BUTTON_VAL
       down:
-        axis: 5
+        axis: 4
         positive: true
         mode: AS_BUTTON_VAL
       left:
-        axis: 4
+        axis: 3
         positive: false
         mode: AS_BUTTON_VAL
       right:
-        axis: 4
+        axis: 3
         positive: true
         mode: AS_BUTTON_VAL
+    home: null
     axes:
       RSX:
-        axis: 3
+        axis: 5
         mode: AS_STICK_VAL
       RSY:
         axis: 2
@@ -253,33 +260,34 @@ linux:
   "DragonRiseGeneric":
     dpad:
       up:
-        axis: 6
+        axis: 4
         positive: false
         mode: AS_BUTTON_VAL
       down:
-        axis: 6
+        axis: 4
         positive: true
         mode: AS_BUTTON_VAL
       left:
-        axis: 5
+        axis: 3
         positive: false
         mode: AS_BUTTON_VAL
       right:
-        axis: 5
+        axis: 3
         positive: true
         mode: AS_BUTTON_VAL
+    menu: home: null
     axes:
-      RSX:
-        axis: 3
-        mode: AS_STICK_VAL
       RSY:
-        axis: 4
+        axis: 5
         mode: AS_STICK_VAL
 
   "ADT1":
+    face:
+      TR: 3
+      QT: 4
     lrtb:
       LT:
-        axis: 5
+        axis: 3
         positive: true
         mode: AS_COMBINED_VAL
         triggerValue: 0
@@ -291,11 +299,12 @@ linux:
     menu:
       back: null
       start: null
-      home: button: 6 # o__O back and start not exists but meta exist
+      home: button: 12 # o__O back and start not exists but meta exist
     axes:
-      LSB: button: 7
-      RSB: button: 8
-    dpad: # as dualshock 4
+      LSB: button: 13
+      RSB: button: 14
+      RSY: axis: 5
+    dpad:
       up:
         axis: 7
         positive: false
