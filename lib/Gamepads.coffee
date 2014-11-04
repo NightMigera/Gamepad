@@ -15,15 +15,48 @@
 
 #@define MAX_INACTIVE 15*60000
 
+# window object, or other global top this
 top = @
 
+###*
+ * Массив джойстиков с возможностью отслеживания их подключения, отключения.
+ * @class Gamepads
+ * @extends EventedArray
+###
 class Gamepads extends EventedArray
-
+  ###*
+   * Поддерживается ли интерфейс в принципе.
+   * @private
+   * @type Boolean
+  ###
   _support = false
+  
+  ###*
+   * Реализация только в стиле webkit? В противном случае полная реализация.
+   * @private
+   * @type Boolean
+  ###
   _webkitStyle = false
+  
+  ###*
+   * Ссылк на таймер.
+   * @private
+   * @type shedullerId|Number
+  ###
   _webkitPoolSheduller = null
+  
+  ###*
+   * Массив заданий для webkit
+   * @private
+   * @type Array
+  ###
   _reQueue = []
-
+  
+  ###*
+   * Config by default.
+   * @private
+   * @type Object
+  ###
   defaultConfig =
     silent: true # errors and warnings not print to console (if compiled not debug mode). Allowed for all instance!
     autoDetect: true # detect all gamepads on constructor
@@ -34,6 +67,14 @@ class Gamepads extends EventedArray
     maps: null # advanced map or array map (map instance of GamepadMap)
     allowCustomBlockName: false # allow custom block name, (ex: 'center' for axes and menu)
 
+  ###*
+   * Анализирает и проверяет конфигурацию.
+   * Если параметр ошибочен, то пишется предупреждение и выставляется значение по умолчанию
+   * @private
+   * @method parseConfig
+   * @param Object config
+   * @return Object
+  ###
   parseConfig = (config) ->
     unless config
       ERR "Gamepads: config: config is empty. Merging fail."
@@ -106,7 +147,11 @@ class Gamepads extends EventedArray
 
     return config
 
-
+  ###*
+   * Инициаизвция по конфигурации. Конфигурация и значения описаны выше в `defaultConfig`
+   * @constructor
+   * @param Object config
+  ###
   constructor: (config = {}) ->
     unless navigator?
       ERR "Gamepads: navigator not exists! Browser strange."
@@ -117,9 +162,11 @@ class Gamepads extends EventedArray
 
     config = overlay defaultConfig, config
     @config = parseConfig config
-
+    
+    # add and declare event listener handlers
     EventTargetEmiter.call @, 'on', 'off', 'add'
 
+			# in method getGamepads exist then must be full realisation of GamepadAPI
     if navigator.getGamepads?
       top.addEventListener 'gamepadconnected', (e) =>
         r = @_addGamepad(e.gamepad)
@@ -132,7 +179,7 @@ class Gamepads extends EventedArray
         return
       top.addEventListener 'gamepaddisconnected', (e) =>
         @_gamepadDisconnect e.gamepad
-    else
+    else # without if becouse checked before
       _webkitStyle = true
       _registered = [] # wrong! it's local registered, not global!
       _getPad = (gamepad) =>
@@ -143,6 +190,7 @@ class Gamepads extends EventedArray
         instance: @
         registered: _registered###
       _webkitMaxInactive = config.webkitInactiveDisconnect
+      # check add gamepads. If time recheck too big then connect detect very slow.
       _reQueue.push =>
         # detect connect gamepad and disconnect
         for gamepad in navigator.webkitGetGamepads()
@@ -158,11 +206,11 @@ class Gamepads extends EventedArray
                 @[r2].connect()
                 @_createEvent 'on', @[r2]
         return
-
+      # request all gamepads in _registered for connect or disconnect
       _reQueue.push =>
         for gamepad in _registered
           if gamepad.connected
-            if NOW - gamepad.timechange > _webkitMaxInactive
+            if NOW - gamepad.timechange > _webkitMaxInactive #todo: not work, remount
               gamepad.connected = false
               @_gamepadDisconnect gamepad
           else if NOW - gamepad.timechange < _webkitMaxInactive
@@ -194,21 +242,58 @@ class Gamepads extends EventedArray
     if config.autoDetect
       @detect()
 
+  ###*
+   * Зарегестрированые джойстики по их ID в виде массива.
+   * @example registered['026d12ad'] = [pad1, pad2, ...]
+   * @public
+   * @type Object
+  ###
   registred: null
 
+  ###*
+   * Current config. Must be read only, if change effect not garanted.
+   * Текущая конфигурация. Изменения папрямую приведут к неизвестному результату.
+   * @public
+   * @type Object|Dict
+  ###
   config: null
 
+  ###*
+   * Detect exists gamepads. Can be run manual, can be run automatic if `config.autoDetect`
+   * If api not supported, then return false, else return true. 
+   * Add only not added gamepads. May be run safely.
+   * Определяет и добавляет джойстики из системы. Можно вызвать вручную, а можно
+   * автоматически, если `config.autoDetect`. Возвращает true, если интерфейс подерживается
+   * и false, еси нет. Может быть безопасно вызвана несколько раз, добавлятся только те
+   * джойстики, что не добавлены уже. Может быть использована дляопределения поддержки
+   * интерфейса системой. 
+   * @public
+   * @return Boolean
+  ###
   detect: ->
     return false unless _support
     for gamepad in navigator.getGamepads()
       @_addGamepad(gamepad)
     true
 
+  ###*
+   * Упрощённое создание события.
+   * @protected
+   * @param String 		name название события
+   * @param Gamepad2	pad экземпляр, вызвавший событие
+   * @return Boolean было ли перехвачено событие
+  ###
   _createEvent: (name, pad) ->
     return null unless isString name
     return null unless pad
     @emet name, new CustomEvent name, detail: pad
 
+  ###*
+   * Добавляет или переподключает джойстик.
+   * @protected
+   * @param Gamepad gamepad браузерный экземпляр.
+   * @return Number id new Gamepad2 or -1 if not added
+  ###
   _addGamepad: (gamepad) ->
     return -2 unless gamepad?
     add = =>
@@ -242,6 +327,12 @@ class Gamepads extends EventedArray
       return add()
     return -1
 
+  ###*
+   * Механизм отключения джойстика.
+   * @protected
+   * @param Gamepad gamepad
+   * @return void
+  ###
   _gamepadDisconnect: (gamepad) ->
     ids = @registred[gamepad.id]
     unless ids
@@ -258,6 +349,13 @@ class Gamepads extends EventedArray
     @_createEvent 'off', pad2
     return
 
+  ###*
+   * Запуск механизмаопроса состояний джойстиков.
+   * @protected
+   * @param Number Hz частота обновлений состояний
+   * @param Number wHz частота опроса заданий webkit
+   * @return void
+  ###
   _startShedule: (Hz = 60, wHz = 10) ->
     requestAnimationFrame = top.requestAnimationFrame or top.mozRequestAnimationFrame or top.webkitRequestAnimationFrame
     requestAnimationFrame =>
@@ -299,6 +397,11 @@ class Gamepads extends EventedArray
       return info: ["Gamepads: look at console logs!"]
     return ["Gamepads: look at console logs!"]
 #@else
+  ###*
+   * Получаем сообщения системы.
+   * @param String type
+   * @return Array messages
+  ###
   @getInfo = (type) ->
     if type?
       if messages[type]?

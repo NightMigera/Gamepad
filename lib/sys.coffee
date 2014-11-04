@@ -2,6 +2,12 @@
 #@define JS_SYS_COFFEE_
 
 #@ifdef EXTENDS
+###*
+  Наследует класс child из класса parent.
+  @param class child дочерний класс
+  @param class parent родительский класс
+  @return class результат наследованияъ
+###
 _extends = (child, parent) ->
   ctor = ->
     @constructor = child
@@ -24,7 +30,6 @@ _implements = (mixins...) ->
   * если нужно создать третий объект (не трогать `to`) из двух надо использовать `merge(merge({}, to), from)` <br />
   * (!) Нет защиты от дурака. Если аргументы не объекты, то результат не предсказуем и может быть ошибка.
   *
-  * @method merge
   * @param {Object|Array} to модифицируемый объект
   * @param {Object|Array} from модифицирующий объект
   * @return {Object} изменённый `to`
@@ -56,7 +61,11 @@ overlay = (under, upper) ->
   merge merge({}, under), upper
 
 #@define NOW Date.now()
-
+###*
+  Режим без вывода ошибок, предупреждений и сообщений в консоль. Учитывается без DEBUG,
+  определяется в конструкторе Gamepads.
+  @type Boolean
+###
 silent = true
 
 #@ifdef DEBUG
@@ -69,24 +78,40 @@ silent = true
   #@define ERR  throwError
   #@define WARN throwWarn
   #@define INFO throwInfo
-
+# все сообщения всех экземпляров Gamepads попадают в messages в обычном режиме.
 messages =
   error: []
   warn: []
   info: []
+###*
+  константа для меток времени относительно старта скрипта в массиве сообщений
+  @type Timestamp
+###
 start = NOW
+
+###* 
+  Добавляет сообщения в массив, прикрепляя метку времени. 
+  Если не тихий режим, выводит в консоль.
+  @param * errors ошибки
+###
 throwError = (errors...) ->
   out = [NOW - start]
   out.push errors...
   messages.error.push out
   console.error errors... unless silent
   return
+###*
+  @param * warn предупреждения
+###
 throwWarn = (warn...) ->
   out = [NOW - start]
   out.push warn...
   messages.warn.push out
   console.warn warn... unless silent
   return
+###*
+  @param * info сообщения
+###
 throwInfo = (info...) ->
   out = [NOW - start]
   out.push info...
@@ -97,13 +122,30 @@ throwInfo = (info...) ->
 #@endif
 # DEBUG
 
+###*
+  Check `functionToCheck` function handle or not?
+  @param handle|* functionToCheck
+  @retoorn Boolean
+###
 isFunction = (functionToCheck) ->
   getType = {}
   functionToCheck and getType.toString.call(functionToCheck) is "[object Function]"
 
+###*
+  Check `string` is string.
+  @param String|* string
+  @retoorn Boolean
+### 
 isString = (string) ->
   string + '' is string
 
+###*
+	Create from `number` string length `width` width '0' before `number`.
+	If `number` length above than `width`, return `number` as string.
+	@param String|Number number
+	@param Number width
+	@return String
+###
 zeroFill = (number, width) ->
   width -= number.toString().length
   return new Array(width + 1).join("0") + number  if width > 0
