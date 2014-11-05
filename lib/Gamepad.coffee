@@ -17,32 +17,128 @@
 
 @GAMEPAD_NAME_SHORT = INPUT_NAME_SHORT_VAL
 
+###*
+ * Interface for gamepad. Button have events press, up and down, sticks have method change.
+ * Buttons and sticks apportioned by logical blocks:
+ * `dpad` -- left + buttons
+ * `lrtb` -- left/right tob/button buttons (triggers and shoulders)
+ * `menu` -- central buttons back/select  start/forward and meta/home
+ * `axes` -- stcks and stick buttons
+ * `face` -- right 4 action-buttons
+ *
+ * config:
+ * Mode of `naming` declare name of blocks and buttons. Recommend use short naming.
+ * `maps` is array of `GamepadMap` -- modifed, corrected or new mapping for gamepads. 
+ * Map have vendor, product and platform id, and apply only on this. 
+ * If custom map have custom block name, you need set `allowCustomBlockNaming` else throw
+ * error.
+ * To skip config check set `trusted` is true.
+ *
+ * Основной интерфейс для джойстика. У кнопок есть события нажатия, а у стиков -- изменения
+ * Кнопки и блоки разнесены по логическим блокам:
+ * `dpad` -- крестовина
+ * `lrtb` -- верхние тригерр и бампер (R1 L1 R2 L2 в нотации PS)
+ * `menu` -- кнопки меню в центре
+ * `axes` -- стики и кнопки стиков
+ * `face` -- кнопки справа
+ *
+ * конфигурация (по умолчанию транслируется из Gamepads)
+ * Параметр `naming`определяет режим названия блоков и кнопок. Если маска содержит 
+ * `GAMEPAD_NAME_FULL`, то названия некоторых блоков и кнопок альтернативные указанным.
+ * `maps` если не `null` является массивом объектов `GamepadMap, в который указаны vendor,
+ * prodict и platform, которые определяют применимость карты только при полном совпадении. 
+ * Если блок имеет имя отлично от вышеописанных, то следует указать `allowCustomBlockName`
+ * в противном случае будет брошена ошибка.
+ * Чтобы не проверять правильность конфигурации, следует установить `trusted`
+ *
+ * @class Gamepad2
+ * @extends EventTargetEmiter
+ * @implements SPoke
+###
 class Gamepad2 extends EventTargetEmiter
 
+	_implements.call(@, SPoke)
+
+	###*
+	 * Статус джойстика
+	 * @public
+	 * @type Boolean
+	###
   connected: false
 
+	###*
+	 * Ссылка на базовый джойстик
+	 * @public
+	 * @type Gamepad
+	###
   gamepad: null
 
+	###*
+	 * Текущая карта кнопоки осей
+	 * @public
+	 * @type GamepadMap
+	###
   map: null
 
+	###*
+	 * Блок стиков
+	 * @public
+	 * @type Block
+	###
   axes: null
 
+	###*
+	 * Блок крестовины
+	 * @public
+	 * @type Block
+	###
   dpad: null
 
+	###*
+	 * Блок кнопок справа
+	 * @public
+	 * @type Block
+	###
   face: null
 
+	###*
+	 * Блок верхних кнопок (тригер, бампер)
+	 * @public
+	 * @type Block
+	###
   lrtb: null
 
+	###*
+	 * Блок кнопок взаимодействия с меню
+	 * @public
+	 * @type Block
+	###
   menu: null
 
+	###*
+	 * Конфигурация текущая
+	 * @public
+	 * @type Object
+	###
   config: null
 
+	###*
+	 * Конфигурация по-умолчанию
+	 * @private
+	 * @type Object
+	###
   defaultConfig =
     naming: GAMEPAD_NAME_FULL | GAMEPAD_NAME_SHORT # mask use long names of button and block and short names
     maps: null # advanced map or array map (map instance of GamepadMap)
     allowCustomBlockName: false # allow custom block name, (ex: 'center' for axes and menu)
     trusted: false # trusted config, set Gamepads when create gamepad.
 
+	###*
+	 * Создаёт на основе `gamepad` с учётом `config` экземпляр класса.
+	 * @constructor
+	 * @param Gamepad gamepad
+	 * @param Object config = {}
+	###
   constructor: (gamepad, config = {}) ->
 
     config = overlay defaultConfig, config
@@ -71,10 +167,24 @@ class Gamepad2 extends EventTargetEmiter
       else
         @getMap gamepad.id
 
+	###*
+	 * Устанавливает текущую карту кнопок по `id` из `gamepad.id`
+	 * @public
+	 * @method getMap
+	 * @param String id
+	 * @return GamepadMap
+	###
   getMap: (id) ->
     parsed = parseId id
     @map = new GamepadMap parsed[1], parsed[2]
 
+	###*
+	 * Переопределяет текущую карту кнопок на новую из `map` принудительно.
+	 * @public
+	 * @method reMap
+	 * @param GamepadMap map
+	 * @return void
+	###
   reMap: (map) ->
     unless map instanceof GamepadMap
       ERR "Gamepad2: reMap: map must be instance of GamepadMap"
@@ -90,23 +200,48 @@ class Gamepad2 extends EventTargetEmiter
         delete map.activeMap[blockName]
     return
 
+	###*
+	 * Метод, вызываемый при подключении джойстика
+	 * @public
+	 * @method connect
+	 * @return void
+	###
   connect: ->
     @reMap @map
     @connected = true
     @emet "on"
     return
 
+	###*
+	 * Метод, вызываемый при отключении джойстика
+	 * @public
+	 * @method disconnect
+	 * @return void
+	###
   disconnect: ->
     @connected = false
     @emet "off"
     return
 
+	###*
+	 * @public
+	 * @method poke
+	 * @implements SPoke
+	 * @return void
+	###
   poke: ->
     return unless @connected
     for own block of @map.activeMap
       @[block].poke()
     return
 
+	###*
+	 * Анализирует конфигураци, в случае ошибочности, берёт значения по-умолчанию
+	 * @private
+	 * @method parseConfig
+	 * @param Object config
+	 * @return void
+	###
   parseConfig = (config) ->
     unless config
       ERR "Gamepad2: config: config is empty. Merging fail."
@@ -162,6 +297,13 @@ class Gamepad2 extends EventTargetEmiter
 
     return config
 
+	###*
+	 * Преобразует `id` в значения vendor, product
+	 * @private
+	 * @method parseId
+	 * @param String id
+	 * return Array [*, String(4) vendorId, String(4) productId]
+	###
   parseId = (id) ->
     moz = /([0-9a-f]{1,4})\-([0-9a-f]{1,4})\-[\s\w]+/
     webkit = /Vendor: ([0-9a-f]{1,4}) Product: ([0-9a-f]{1,4})/
@@ -178,6 +320,11 @@ class Gamepad2 extends EventTargetEmiter
     vp[2] = zeroFill vp[2], 4
     vp
 
+	###*
+	 * Синонимы коротких и длинных названий кнопок и блоков.
+	 * @private
+	 * @type Array
+	###
   _synonyms = [
     ["PR",    "primary"]
     ["SC",    "secondary"]
@@ -195,6 +342,16 @@ class Gamepad2 extends EventTargetEmiter
     ["RSB", "rightStickButton"]
   ]
 
+	###*
+	 * Функция твечающая за конечное именования блока и кнопок в зависимости от конфигурации
+	 * @private
+	 * @method associate
+	 * @param Gamepad2 pad usualy for this
+	 * @param Number|MASK mode
+	 * @param String blockName
+	 * @paeam Object mapBlock detail of GamepadMap
+	 * @return void
+	###
   associate = (pad, mode, blockName, mapBlock) ->
     find = (name) ->
       for syn in _synonyms
@@ -216,7 +373,6 @@ class Gamepad2 extends EventTargetEmiter
     else if mode & INPUT_NAME_FULL_VAL
       pad[blockNames[1]] = new Block mapBlock, pad.gamepad
     return
-
 
 
 #@endif
