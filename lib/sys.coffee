@@ -140,11 +140,11 @@ isString = (string) ->
   string + '' is string
 
 ###*
-	Create from `number` string length `width` width '0' before `number`.
-	If `number` length above than `width`, return `number` as string.
-	@param String|Number number
-	@param Number width
-	@return String
+  Create from `number` string length `width` width '0' before `number`.
+  If `number` length above than `width`, return `number` as string.
+  @param String|Number number
+  @param Number width
+  @return String
 ###
 zeroFill = (number, width) ->
   width -= number.toString().length

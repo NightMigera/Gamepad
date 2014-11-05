@@ -14,10 +14,10 @@ class EventedArray extends Array # implements EventTarget
 
   _implements.call(@, EventTargetEmiter) # implement mechanizm
 
-	###*
-	 * @constructor
-	 * @param items array-style constructor without single item as length.
-	###
+  ###*
+   * @constructor
+   * @param items array-style constructor without single item as length.
+  ###
   constructor: (items...) ->
     @splice 0, 0, items...
 

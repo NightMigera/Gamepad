@@ -166,7 +166,7 @@ class Gamepads extends EventedArray
     # add and declare event listener handlers
     EventTargetEmiter.call @, 'on', 'off', 'add'
 
-			# in method getGamepads exist then must be full realisation of GamepadAPI
+      # in method getGamepads exist then must be full realisation of GamepadAPI
     if navigator.getGamepads?
       top.addEventListener 'gamepadconnected', (e) =>
         r = @_addGamepad(e.gamepad)
@@ -279,8 +279,8 @@ class Gamepads extends EventedArray
   ###*
    * Упрощённое создание события.
    * @protected
-   * @param String 		name название события
-   * @param Gamepad2	pad экземпляр, вызвавший событие
+   * @param String     name название события
+   * @param Gamepad2  pad экземпляр, вызвавший событие
    * @return Boolean было ли перехвачено событие
   ###
   _createEvent: (name, pad) ->
