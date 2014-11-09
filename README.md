@@ -1,16 +1,16 @@
 ## Table of contents / Оглавление
  - [EN](#unified-interface-of-gamepad)
-  1. [What is it](#what-is-it)
-  2. [Version](#version)
-  3. [Basic usage](#basic-usage)
-  4. [Gamepads](#gamepads)
-  5. [Gamepad2](#gamepad2)
- - [РУС](#Унифицированный-интерфейс-для-джойстиков)
-  1. [О библиотеке](#Унифицированный-интерфейс-для-джойстиков)
-  2. [Версия](#Версия)
-  3. [Основное использование](#Основное-использование)
-  4. [Gamepads](#gamepads-1)
-  5. [Gamepad2](#gamepad2-1)
+  1. [What is it](#what-is-it-)
+  2. [Version](#version-)
+  3. [Basic usage](#basic-usage-)
+  4. [Gamepads](#gamepads-)
+  5. [Gamepad2](#gamepad2-)
+ - [РУС](#Унифицированный-интерфейс-для-джойстиков-)
+  1. [О библиотеке](#Унифицированный-интерфейс-для-джойстиков-)
+  2. [Версия](#Версия-)
+  3. [Основное использование](#Основное-использование-)
+  4. [Gamepads](#gamepads-1-)
+  5. [Gamepad2](#gamepad2-1-)
 
 
 Unified interface of gamepad.
