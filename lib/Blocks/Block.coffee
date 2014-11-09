@@ -35,12 +35,16 @@ class Block extends EventedArray
   map: null
 
   ###*
+  ###
+  name: ""
+
+  ###*
    * На основе карты `map` из `gamepad` создаём `Block`
    * @constructor
    * @param Object map GamepadMapBlock
    * @param Gamepad gamepad
   ###
-  constructor: (map, gamepad) ->
+  constructor: (map, gamepad, @name) ->
     EventTargetEmiter.call @, 'change'
     @gamepad = gamepad
     @_mapParse(map)
@@ -59,24 +63,23 @@ class Block extends EventedArray
         delete map[name]
         continue
       if val.hasOwnProperty('axis') and val.axis?
-        axis = new Axis(@gamepad, val.axis, val.mode or AS_STICK, Boolean(val.positive), val.triggerValue or 0)
+        axis = new Axis(@gamepad, val.axis, val.mode or AS_STICK, name, Boolean(val.positive), val.triggerValue or 0)
         if 'onchange' of axis
           @[name] = axis
+          axis.parent = @
         else
           delete map[name]
           continue
       else if val.hasOwnProperty('button') and val.button?
-        button = new Button(@gamepad, val.button, val.asAxis)
+        button = new Button(@gamepad, val.button, name, val.asAxis)
         if 'onchange' of button
           @[name] = button
+          button.parent = @
         else
           delete map[name]
           continue
       else
         ERR "Value #{name} of MAP incorrect!"
-        return
-      @[name].on 'change', (e) =>
-        @emet 'change', e
         return
     return
 
@@ -90,12 +93,22 @@ class Block extends EventedArray
   addEventListener: (type) ->
     if type is 'change' and not @s('change')
       for own name of @map
-        @[name].on 'change', (e) =>
-          @emet 'change', e
-          return
+        @[name].s 'change', true
     super
 
-  # TODO: removeEventListener correct for remove listener from childrens
+  ###*
+   * Если больше обработчиков нет, то убирает подписывание с событий
+   * @public
+   * @implements EventTargetEmiter
+   * @param String type
+   * @return void
+  ###
+  removeEventListener: (type) ->
+    super
+    if type is 'change' and @_subscribe.change.length is 0
+      for own name of @map
+        @[name].s 'change', false
+    return
 
   ###*
    * Переподписывает блок на новый экемпляр `gamepad`

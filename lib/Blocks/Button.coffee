@@ -13,9 +13,11 @@ class Button extends EventTargetEmiter
 
   pressed: false
 
+  name: ""
+
   _oldPressed: false
 
-  constructor: (gamepad, num, asAxis = false) ->
+  constructor: (gamepad, num, @name, asAxis = false) ->
     # check values
     if typeof gamepad isnt "object"
       ERR "gamepad is not Gamepad"
@@ -77,12 +79,14 @@ class Button extends EventTargetEmiter
           if @_oldValue isnt v = @value
             @emet 'change', new CustomEvent 'change',
               detail:
+                target: @
                 oldValue: @_oldValue
                 newValue: v
         else
           if @_oldPressed isnt p = @pressed
             @emet "change", new CustomEvent 'change',
               detail:
+                target: @
                 oldValue: !p
                 newValue: p
       if @_oldPressed isnt p = @pressed

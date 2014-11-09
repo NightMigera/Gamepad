@@ -7,14 +7,21 @@
 ###
 class SPoke
   ###*
-   * subscribed by `action` name or not?
+   * subscribed by `action` name or not? If `listen` not null, set listener or unset
    * @public
    * @method s
    * @param String action
+   * @param Boolean|Null listen
    * @return Boolean
   ###
-  s: (action) ->
-    @_subscribe.hasOwnProperty(action) and @_subscribe[action].length > 0
+  s: (action, listen = null) ->
+    unless listen?
+      action of @_subscribe and (@_subscribe[action].listen is true or @_subscribe[action].length > 0)
+    else
+      if action of @_subscribe
+        @_subscribe[action].listen = listen
+      else
+        false
   
   ###*
    * Interface for children. This method request for emet events

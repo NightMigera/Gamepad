@@ -25,11 +25,13 @@ class Axis extends EventTargetEmiter
 
   value: 0 # redefine in constructor
 
+  name: ""
+
   _oldValue: 0
 
   _oldPressed: false
 
-  constructor: (gamepad, num, mode, positive, triggerValue = 127) ->
+  constructor: (gamepad, num, mode, @name, positive, triggerValue = 127) ->
     # @axes = gamepad.axes
     @MODE = mode
     r = Math.round
@@ -84,6 +86,7 @@ class Axis extends EventTargetEmiter
         if @_oldValue isnt v = @value
           @emet 'change', new CustomEvent 'change',
             detail:
+              target: @
               oldValue: @_oldValue
               newValue: v
       if @MODE is AS_BUTTON_VAL or @MODE is AS_COMBINED_VAL

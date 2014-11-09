@@ -236,6 +236,21 @@ class Gamepad2 extends EventTargetEmiter
     return
 
   ###*
+   * Добавляет обработчики к элементам при подписке на изменения
+   * @public
+   * @implements EventTargetEmiter
+   * @param String type
+   * @return void
+  ###
+  addEventListener: (type) ->
+    if type is 'change' and not @s('change')
+      for own name of @map.activeMap
+        try @[name].on 'change', (e) =>
+          @emet 'change', e
+          return
+    super
+
+  ###*
    * Анализирует конфигураци, в случае ошибочности, берёт значения по-умолчанию
    * @private
    * @method parseConfig
@@ -367,11 +382,13 @@ class Gamepad2 extends EventTargetEmiter
       if mode & INPUT_NAME_FULL_VAL
         mapBlock[names[1]] = val
     if mode & INPUT_NAME_SHORT_VAL
-      pad[blockNames[0]] = new Block mapBlock, pad.gamepad
+      pad[name = blockNames[0]] = new Block mapBlock, pad.gamepad, name
+      pad[name].parent = pad
       if mode & INPUT_NAME_FULL_VAL
         pad[blockNames[1]] = pad[blockNames[0]]
     else if mode & INPUT_NAME_FULL_VAL
-      pad[blockNames[1]] = new Block mapBlock, pad.gamepad
+      pad[name = blockNames[1]] = new Block mapBlock, pad.gamepad, name
+      pad[name].parent = pad
     return
 
 
