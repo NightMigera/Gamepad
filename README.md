@@ -9,8 +9,8 @@
   1. [О библиотеке](#Унифицированный-интерфейс-для-джойстиков-)
   2. [Версия](#Версия-)
   3. [Основное использование](#Основное-использование-)
-  4. [Gamepads](#gamepads-1-)
-  5. [Gamepad2](#gamepad2-1-)
+  4. [Gamepads](#gamepads--1)
+  5. [Gamepad2](#gamepad2--1)
 
 
 Unified interface of gamepad.
