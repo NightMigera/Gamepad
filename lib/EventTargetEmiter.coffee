@@ -2,7 +2,7 @@
 #@define JS_EVENT_TARGET_EMITER_COFFEE_
 
 ###*
- * EventTargetEmmiter emulate EventTarget interface width Emiter methods on, off, emet
+ * EventTargetEmmiter emulate EventTarget interface width Emiter methods on, off, emet, parent
  * Интерфейс EventTarget полностью воплощён в соответствии со стандартом w3c:
  * http://www.w3.org/TR/domcore/#interface-eventtarget
  * @class EventTargetEmiter
@@ -15,6 +15,13 @@ class EventTargetEmiter # implements EventTarget
    * @type Object
   ###
   _subscribe: null
+
+  ###*
+   * Ссылка на родительский элемент
+   * @public
+   * @type EventTargetEmiter
+  ###
+  parent: null
 
   ###*
    * Проверяет правильность создаваемого обработчика события.
@@ -108,7 +115,7 @@ class EventTargetEmiter # implements EventTarget
    * @param Boolean useCapture
    * @return void
   ###
-  on: @::addEventListener
+  on: (args...) -> @addEventListener args...
 
   ###*
    * Alias for removeEventListener
@@ -119,7 +126,7 @@ class EventTargetEmiter # implements EventTarget
    * @param Boolean useCapture
    * @return void
   ###
-  off: @::removeEventListener
+  off: (args...) -> @removeEventListener args...
 
   ###*
    * Emiter event by `name` and create event or use `evt` if exist
@@ -135,6 +142,8 @@ class EventTargetEmiter # implements EventTarget
     for fn in @_subscribe[name]
       try r = fn[0](evt)
       break if fn[1] is true or r is false
+    if evt.bubbles is true
+      try @parent.emet name, evt
     if evt? then not evt.defaultPrevented else true
 
 #@endif
