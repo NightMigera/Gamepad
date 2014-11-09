@@ -16,7 +16,7 @@ class SPoke
   ###
   s: (action, listen = null) ->
     unless listen?
-      action of @_subscribe and (@_subscribe[action].listen is true or @_subscribe[action].length > 0)
+      (action of @_subscribe and (@_subscribe[action].listen is true or @_subscribe[action].length > 0)) or @["on#{action}"]?
     else
       if action of @_subscribe
         @_subscribe[action].listen = listen
