@@ -142,7 +142,7 @@ class EventTargetEmiter # implements EventTarget
     for fn in @_subscribe[name]
       try r = fn[0](evt)
       break if fn[1] is true or r is false
-    if evt.bubbles is true
+    if evt?.bubbles is true
       try @parent.emet name, evt
     if evt? then not evt.defaultPrevented else true
 
