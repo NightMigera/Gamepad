@@ -1,10 +1,21 @@
 ## Table of contents / Оглавление
- - [EN](#)
- - [РУС](#)
+ - [EN](#unified-interface-of-gamepad)
+  1. [What is it](#what-is-it)
+  2. [Version](#version)
+  3. [Basic usage](#basic-usage)
+  4. [Gamepads](#gamepads)
+  5. [Gamepad2](#gamepad2)
+ - [РУС](#Унифицированный-интерфейс-для-джойстиков)
+  1. [О библиотеке](#Унифицированный-интерфейс-для-джойстиков)
+  2. [Версия](#Версия)
+  3. [Основное использование](#Основное-использование)
+  4. [Gamepads](#gamepads-1)
+  5. [Gamepad2](#gamepad2-1)
+
 
 Unified interface of gamepad.
 =========
-What is it
+What is it [↑](#table-of-contents--Оглавление)
 ---
 Based on the GamepadAPI interface for gamepads. in broowser. Advantages:
   - Fixed association of buttons and sticks;
@@ -13,14 +24,14 @@ Based on the GamepadAPI interface for gamepads. in broowser. Advantages:
   - Event-based system with the ability to use direct references to the values;
   - Flexible settings.
 
-Version
+Version [↑](#table-of-contents--Оглавление)
 ----
 0.0.1.beta
 
 For compile using modifed  [coffeescript@1.7.1](https://github.com/NightMigera/coffeescript).
 Basic coffeescript not allow preprocessor directive.
 
-Basic usage:
+Basic usage: [↑](#table-of-contents--Оглавление)
 -----------
 
 Example:
@@ -90,7 +101,7 @@ In the global scope objects are declared:
  * `GAMEPAD_NAME_FULL`, `GAMEPAD_NAME_SHORT`, `GAMEPAD_AXIS_AS_STICK`, `GAMEPAD_AXIS_AS_BUTTON`,
    `GAMEPAD_AXIS_AS_COMBINED` constants that are discussed below.
 
-Gamepads
+Gamepads [↑](#table-of-contents--Оглавление)
 ---
 
 When you create an object in the constructor can be passed to the config, as in the example above.
@@ -127,7 +138,7 @@ Events *object* `Gamepads`:
 Approx .: `Gamepad2` object in` Gamepads` events unfold as follows:
 `add[, connect[, disconnect[, ...]]`.
 
-Gamepad2
+Gamepad2 [↑](#table-of-contents--Оглавление)
 ---
 
 The main interface for the gamepad. Do the buttons have a press events, and in the sticks - changes.
@@ -213,7 +224,7 @@ Controls (block, button, axis):
 
 ----------------------
 
-Унифицированный интерфейс для джойстиков.
+Унифицированный интерфейс для джойстиков. [↑](#table-of-contents--Оглавление)
 =========
 
 Основанный на GamepadAPI интерфейс для джойстиков. Преимущества:
@@ -223,14 +234,14 @@ Controls (block, button, axis):
   - Событийно-ориентированная система с возможностью использовать прямые обращения к значениям;
   - Возможность гибкой настройки;
 
-Версия
+Версия [↑](#table-of-contents--Оглавление)
 ----
 0.0.1.бета
 
 Для компиляции испоользуется модифицированная версия [coffeescript@1.7.1](https://github.com/NightMigera/coffeescript)
 с препроцессором и инклюдами.
 
-Основное использование:
+Основное использование: [↑](#table-of-contents--Оглавление)
 ----
 
 Пример:
@@ -299,7 +310,7 @@ Controls (block, button, axis):
  * `GamepadMap` класс для создания собственных ассоциаций или исправления текущих
  * `GAMEPAD_NAME_FULL`, `GAMEPAD_NAME_SHORT`, `GAMEPAD_AXIS_AS_STICK`, `GAMEPAD_AXIS_AS_BUTTON`, `GAMEPAD_AXIS_AS_COMBINED` константы, будут рассмотрены ниже.
   
-Gamepads
+Gamepads [↑](#table-of-contents--Оглавление)
 ---
   
 При создании объекта в конструктор может быть передан конфиг, как в примере выше.
@@ -334,7 +345,7 @@ Gamepads
 Прим.: для объекта `Gamepad2` в `Gamepads` события разворачиваются следующим образом: 
 `add[, connect[, disconnect[, ...]]`.
 
-Gamepad2
+Gamepad2 [↑](#table-of-contents--Оглавление)
 ----
 
 Основной интерфейс для джойстика. У кнопок есть события нажатия, а у стиков — изменения.
