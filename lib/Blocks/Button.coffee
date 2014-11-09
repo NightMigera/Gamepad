@@ -77,18 +77,16 @@ class Button extends EventTargetEmiter
       if @s('change')
         if @MODE & AS_STICK_VAL # if as axis
           if @_oldValue isnt v = @value
-            @emet 'change', new CustomEvent 'change',
-              detail:
-                target: @
-                oldValue: @_oldValue
-                newValue: v
+            @emet 'change', createEvent 'change',
+              target: @
+              oldValue: @_oldValue
+              newValue: v
         else
           if @_oldPressed isnt p = @pressed
-            @emet "change", new CustomEvent 'change',
-              detail:
-                target: @
-                oldValue: !p
-                newValue: p
+            @emet "change", createEvent 'change',
+              target: @
+              oldValue: !p
+              newValue: p
       if @_oldPressed isnt p = @pressed
         if p # new value is press
           @emet("down") if @s("down")

@@ -164,5 +164,12 @@ tick = (time, fn) ->
 stopTick = (tickId) ->
   clearInterval tickId
 
+# event create
+
+createEvent = (name, detail) ->
+  e = new CustomEvent name, detail
+  e.initCustomEvent name, true, true, detail
+  e
+
 #@endif
 #end JS_SYS_COFFEE_

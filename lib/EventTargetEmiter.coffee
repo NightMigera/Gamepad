@@ -107,15 +107,17 @@ class EventTargetEmiter # implements EventTarget
     @emet t, evt
 
   ###*
-   * Alias for addEventListener
+   * Alias for addEventListener, but return this
    * @public
    * @method on
    * @param String type
    * @param Handler listener
    * @param Boolean useCapture
-   * @return void
+   * @return this
   ###
-  on: (args...) -> @addEventListener args...
+  on: (args...) ->
+    @addEventListener args...
+    @
 
   ###*
    * Alias for removeEventListener
@@ -124,9 +126,11 @@ class EventTargetEmiter # implements EventTarget
    * @param String type
    * @param Handler listener
    * @param Boolean useCapture
-   * @return void
+   * @return this
   ###
-  off: (args...) -> @removeEventListener args...
+  off: (args...) ->
+    @removeEventListener args...
+    @
 
   ###*
    * Emiter event by `name` and create event or use `evt` if exist

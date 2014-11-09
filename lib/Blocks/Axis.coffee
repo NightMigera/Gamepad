@@ -84,11 +84,10 @@ class Axis extends EventTargetEmiter
     if @_subscribe._length > 0
       if @s('change')
         if @_oldValue isnt v = @value
-          @emet 'change', new CustomEvent 'change',
-            detail:
-              target: @
-              oldValue: @_oldValue
-              newValue: v
+          @emet 'change', createEvent 'change',
+            target: @
+            oldValue: @_oldValue
+            newValue: v
       if @MODE is AS_BUTTON_VAL or @MODE is AS_COMBINED_VAL
         if @s('press') or @s('down') or @s('up')
           if (p = @pressed) isnt @_oldPressed
