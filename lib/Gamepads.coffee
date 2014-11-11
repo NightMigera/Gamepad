@@ -365,7 +365,7 @@ class Gamepads extends EventedArray
       startTimers = ->
         t is null and t = tick (1000 / Hz |0), -> # interval 21 is 1000/60
           # fucking webkit need requrst for all gamepads statements every fucking time!
-          navigator.webkitGetGamepads() if 'webkitGetGamepads' of navigator
+          navigator.getGamepads() if 'webkitGetGamepads' of navigator
           for pad in p
             pad.poke() if pad.connected # к чему тревожить мертвецов?
           return
