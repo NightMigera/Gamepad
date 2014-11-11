@@ -1,0 +1,13 @@
+#text3866-4-3-4,
+#text3866-4-3-4-4,
+#text3866-4-3-4-2-9,
+#text3866-4-3-4-2 {
+    opacity: 0;
+}
+
+svg text {
+    fill: #0050C8;
+}
+svg text.active {
+    fill: #005714;
+}
